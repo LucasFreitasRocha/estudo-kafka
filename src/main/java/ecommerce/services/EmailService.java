@@ -1,15 +1,6 @@
 package ecommerce.services;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
 public class EmailService {
 	
@@ -17,8 +8,12 @@ public static void main(String[] args) {
 
 		EmailService emailService = new EmailService();
 
-		KafkaService service = new KafkaService(EmailService.class.getSimpleName(),"ECOMMERCE_SEND_EMAIL", emailService::parse);
-		service.run();
+		try(KafkaService service =
+				new KafkaService(EmailService.class.getSimpleName(),
+						"ECOMMERCE_SEND_EMAIL", emailService::parse)){
+			service.run();
+		}
+
 		//consumer.subscribe(Collections.singletonList("ECOMMERCE_NEW_ORDER"));
 		
 	}

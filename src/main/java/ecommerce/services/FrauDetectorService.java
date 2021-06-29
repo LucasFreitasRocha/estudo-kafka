@@ -1,23 +1,17 @@
 package ecommerce.services;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
-
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class FrauDetectorService {
 	
 public static void main(String[] args) {
 		FrauDetectorService frauDetectorService = new FrauDetectorService();
-		KafkaService service = new KafkaService(FrauDetectorService.class.getSimpleName(),"ECOMMERCE_NEW_ORDER", frauDetectorService::parse);
-		service.run();
+		try(KafkaService service =
+				new KafkaService(FrauDetectorService.class.getSimpleName(),
+						"ECOMMERCE_NEW_ORDER", frauDetectorService::parse)){
+			service.run();
+		}
+
 	}
 
 	private void parse(ConsumerRecord<String, String> record) {
