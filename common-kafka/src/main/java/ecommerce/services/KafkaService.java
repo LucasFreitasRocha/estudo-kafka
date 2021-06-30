@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import java.io.Closeable;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class KafkaService<T> implements Closeable {
@@ -41,7 +42,15 @@ public class KafkaService<T> implements Closeable {
             if(!poll.isEmpty()) {
                 System.out.println("Encontrei um Novo Registro");
                 poll.forEach(p -> {
-                    parse.consume(p);
+                    try {
+                        parse.consume(p);
+                    } catch (ExecutionException e) {
+                        // so far, just logging the exception for this message
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        // so far, just logging the exception for this message
+                        e.printStackTrace();
+                    }
                 });
 
             }

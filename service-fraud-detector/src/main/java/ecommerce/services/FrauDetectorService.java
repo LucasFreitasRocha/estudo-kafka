@@ -3,10 +3,12 @@ package ecommerce.services;
 import ecommerce.model.Order;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class FrauDetectorService {
-	
+	private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
 public static void main(String[] args) {
 		FrauDetectorService frauDetectorService = new FrauDetectorService();
 		try(KafkaService service =
@@ -20,7 +22,7 @@ public static void main(String[] args) {
 
 	}
 
-	private void parse(ConsumerRecord<String, Order> record) {
+	private void parse(ConsumerRecord<String, Order> record) throws ExecutionException, InterruptedException {
 		System.out.println("Encontrei um Novo Registro");
 			System.out.println("------------------------------------------------------");
 			System.out.println("Processing new order, checking for fraud ");
@@ -34,7 +36,19 @@ public static void main(String[] args) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			Order order = record.value();
+			if(isaFraud(record)){
+				System.out.println("Order is a fraud!");
+				orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getOrderId(), order);
+			}else{
+				System.out.println("Approved " + order);
+				orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getOrderId(), order);
+			}
 			System.out.println("Order processed");
+	}
+
+	private boolean isaFraud(ConsumerRecord<String, Order> record) {
+		return record.value().getAmount().compareTo(new BigDecimal("3000")) >= 0;
 	}
 
 
