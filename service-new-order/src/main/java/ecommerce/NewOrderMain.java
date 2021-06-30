@@ -17,11 +17,11 @@ public class NewOrderMain {
 			var email = Math.random() + "@email.com";
 			for (int i = 0; i < 10; i++) {
 
-				Order order = new Order(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
+				Order order = new Order( UUID.randomUUID().toString(),
 						new BigDecimal(Math.random() * 5000 + 1 ), email);
-				var value = "pedidoId: 01,usuarioId: " + order.getUserId() +  ",500 reais ";
-				orderDispatcher.send("ECOMMERCE_NEW_ORDER", order.getOrderId(), order);
-				emailDispatcher.send("ECOMMERCE_SEND_EMAIL", order.getOrderId(), emailCode);
+				var value = "pedidoId: 01,usuarioId: "  +  ",500 reais ";
+				orderDispatcher.send("ECOMMERCE_NEW_ORDER", email, order);
+				emailDispatcher.send("ECOMMERCE_SEND_EMAIL", email, emailCode);
 			}
 		}
 	}

@@ -39,10 +39,10 @@ public static void main(String[] args) {
 			Order order = record.value();
 			if(isaFraud(record)){
 				System.out.println("Order is a fraud!");
-				orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getOrderId(), order);
+				orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getEmail(), order);
 			}else{
 				System.out.println("Approved " + order);
-				orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getOrderId(), order);
+				orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getEmail(), order);
 			}
 			System.out.println("Order processed");
 	}
