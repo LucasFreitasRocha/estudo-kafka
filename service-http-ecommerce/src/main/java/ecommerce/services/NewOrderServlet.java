@@ -1,10 +1,7 @@
 package ecommerce.services;
 
 import ecommerce.model.Order;
-import org.eclipse.jetty.servlet.Source;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +49,5 @@ public class NewOrderServlet extends HttpServlet {
         } catch (InterruptedException e) {
             throw new ServletException(e);
         }
-
-
     }
 }
