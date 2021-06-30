@@ -35,6 +35,7 @@ public class KafkaService<T> implements Closeable {
     }
 
 
+
     public void run() {
         while (true) {
 
@@ -44,13 +45,13 @@ public class KafkaService<T> implements Closeable {
                 poll.forEach(p -> {
                     try {
                         parse.consume(p);
-                    } catch (ExecutionException e) {
-                        // so far, just logging the exception for this message
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (Exception e) {
+                        // only catches Exeception because no matter which Exception
+                        // I want to recover and parse the next one
                         // so far, just logging the exception for this message
                         e.printStackTrace();
                     }
+
                 });
 
             }

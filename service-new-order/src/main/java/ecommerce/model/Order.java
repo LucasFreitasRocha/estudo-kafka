@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 
 public class Order {
 
+    private final String email;
     private String userId, orderId;
     private BigDecimal amount;
 
-    public Order(String userId, String orderId, BigDecimal amount) {
+    public Order(String userId, String orderId, BigDecimal amount , String email) {
+        this.email = email;
         this.userId = userId;
         this.orderId = orderId;
         this.amount = amount;
@@ -35,5 +37,9 @@ public class Order {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

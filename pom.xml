@@ -25,7 +25,8 @@
 		<module>service-log</module>
 		<module>service-new-order</module>
 		<module>common-kafka</module>
-	</modules>
+        <module>service-users</module>
+    </modules>
 	<name>estudo-kafka</name>
 
 	<dependencies>
